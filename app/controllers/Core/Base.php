@@ -39,9 +39,12 @@ class Controller_Core_Base
 
         header("Location: index.php?a=$a&c=$c");
     }
-
+ 
     public function renderTemplate($template, $data = [])
     {
+        // echo "<pre>";
+        // print_r($data);
+
         extract($data);
         
         $templatePath = 'app/templates/' . $template;

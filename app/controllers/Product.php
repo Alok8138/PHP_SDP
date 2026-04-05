@@ -23,6 +23,9 @@ class Controller_Product extends Controller_Core_Base
             $model->load($id);
         }
 
+        // echo "<pre>";
+        // print_r($model);
+
         $this->renderTemplate('product/edit.phtml', [
             'data' => $model
         ]);
