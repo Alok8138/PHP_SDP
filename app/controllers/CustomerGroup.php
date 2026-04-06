@@ -38,7 +38,8 @@ class Controller_CustomerGroup extends COntroller_Core_Base
         $id = $this->getRequest()->get('id');
         if($id){
             $model = new CustomerGroup_Model();
-            $model->delete($id);
+            $model->load($id)->delete($id);
+            // $model->delete($id);
         }
 
         $this->redirect('list', 'customergroup');

@@ -6,17 +6,10 @@
     <input type="hidden" name="productmedia[product_media_id]" value="<?php echo $data->product_media_id; ?>">
 
     <table border="1" width="100%">
-        <tr>
-            <td>Name</td>
-            <td><input type="text" name="productmedia[name]" value="<?php echo $data->name; ?>"></td>
-        </tr>
+
         <tr>
             <td>Product ID</td>
             <td><input type="text" name="productmedia[product_id]" value="<?php echo $data->product_id; ?>"></td>
-        <!-- <tr>
-            <td>File Path</td>
-            <td><input type="text" name="productmedia[file_path]" value="<?php echo $data->file_path; ?>"></td>
-        </tr> -->
         <tr>
             <td>File Path</td>
             <td><input type="text" name="productmedia[file_path]" value="<?php echo $data->file_path; ?>"></td>
@@ -27,14 +20,6 @@
         </tr>
 
         <tr>
-
-            <td>Status</td>
-            <td>
-                <select name="productmedia[status]">
-                    <option value="1" <?php echo ($data->status == 1) ? 'selected' : ''; ?>>Enabled</option>
-                    <option value="0" <?php echo ($data->status == 0) ? 'selected' : ''; ?>>Disabled</option>
-                </select>
-            </td>
         </tr>
         <tr>
             <td colspan="2">

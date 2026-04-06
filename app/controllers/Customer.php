@@ -35,7 +35,7 @@ class Controller_Customer extends Controller_Core_Base
         $id = $this->getRequest()->get('id');
         if ($id) {
             $model = new Customer_Model();
-            $model->delete($id);
+            $model->load($id)->delete($id);
         }
         $this->redirect('list', 'customer');
     }

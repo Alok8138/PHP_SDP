@@ -2,6 +2,7 @@
 require_once 'app/controllers/Core/Base.php';
 require_once 'app/models/Product.php';
 
+
 class Controller_Product extends Controller_Core_Base
 {
     public function listAction()
@@ -9,10 +10,17 @@ class Controller_Product extends Controller_Core_Base
         $model = new Model_Product();
         $data = $model->fetchAll();
 
-        $this->renderTemplate('product/list.phtml', [
-            'data' => $data
-        ]);
+
+        $block = Mage::getBlock('product/list');
+
+        $layout = $this->getLayout();
+        $layout->addChild('product/list', $block);
+        // $block->setData($data);
+
+
+        $layout->toHtml();
     }
+
 
     public function editAction()
     {
@@ -25,8 +33,8 @@ class Controller_Product extends Controller_Core_Base
 
         // echo "<pre>";
         // print_r($model);
-
-        $this->renderTemplate('product/edit.phtml', [
+        $block = Mage::getBlock('product/edit');
+        $this->renderTemplate($block->getTemplate(), [
             'data' => $model
         ]);
     }
@@ -50,7 +58,8 @@ class Controller_Product extends Controller_Core_Base
 
         if ($id) {
             $model = new Model_Product();
-            $model->delete($id);
+            $model->load($id)->delete($id);
+            // $model->delete($id);
         }
 
         $this->redirect('list', 'product');

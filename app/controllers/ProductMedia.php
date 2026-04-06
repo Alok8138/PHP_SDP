@@ -30,10 +30,11 @@ class Controller_ProductMedia extends Controller_Core_Base{
     }
 
     public function deleteAction(){
-        $id = $this->getRequest()->getGet('id');
+        $id = $this->getRequest()->get('id');
         if($id){
             $model = new Model_ProductMedia();
-            $model->delete($id);
+            $model->load($id)->delete($id);
+            // $model->delete($id);
         }
         $this->redirect('list', 'productmedia');
     }
