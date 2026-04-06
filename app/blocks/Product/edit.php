@@ -2,7 +2,7 @@
 
 class Block_Product_Edit
 {
-
+//prd block
     protected $_template = null;
 
     protected function renderTemplate($template)

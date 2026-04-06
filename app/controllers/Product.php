@@ -5,6 +5,7 @@ require_once 'app/models/Product.php';
 
 class Controller_Product extends Controller_Core_Base
 {
+    //prd controller
     public function listAction()
     {
         $model = new Model_Product();

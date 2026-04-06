@@ -2,7 +2,7 @@
 
 class Block_Product_List
 {
-
+//list
     protected $_template = null;
 
   

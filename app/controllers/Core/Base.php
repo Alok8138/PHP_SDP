@@ -3,6 +3,7 @@ require_once 'app/models/Product.php';
 require_once 'app/blocks/Core/Layout.php';
 class Controller_Core_Base
 {
+    //base
     protected $request = null;
     protected $layout = null;
 
