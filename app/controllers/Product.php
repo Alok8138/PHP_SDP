@@ -1,68 +1,62 @@
 <?php
-require_once 'app/controllers/Core/Base.php';
-require_once 'app/models/Product.php';
-
-
-class Controller_Product extends Controller_Core_Base
-{
-    //prd controller
-    public function listAction()
-    {
-        $model = new Model_Product();
-        $data = $model->fetchAll();
-
-
-        $block = Mage::getBlock('product/list');
-
+require_once "app/Models/Product.php";
+require_once "app/Block/Core/template.php";
+require_once "app/Block/Core/Layout.php";
+class Controllers_Product extends Controllers_Core_Base{
+    public function listAction(){
+        $productModel = new Models_Product();
+        $data = $productModel->getAll();
+        $block = Mage::getBlock("product/list");
+        $block->setData($data);
+        // $this->renderTemplate('product/list.phtml', ['data'=> $data]);
+        // $this->renderTemplate($block->getTemplate().'.phtml', ['data'=> $data]);
+        
         $layout = $this->getLayout();
         $layout->addChild('product/list', $block);
-        // $block->setData($data);
-
-
         $layout->toHtml();
+
     }
-
-
-    public function editAction()
-    {
-        $model = new Model_Product();
+    public function editAction(){
+        // $productModel = new Models_Product();
+        // $productModel = Mage::getModel('product');
+        $productModel = Mage::getModel('product');
         $id = $this->getRequest()->get('id');
-
-        if ($id) {
-            $model->load($id);
+        if($id){
+            // $productModel->load($id);
+            if(!$productModel->load($id)){
+                throw new Exception("Invalid Product ID");
+            }
         }
-
-        // echo "<pre>";
-        // print_r($model);
-        $block = Mage::getBlock('product/edit');
-        $this->renderTemplate($block->getTemplate(), [
-            'data' => $model
-        ]);
+        $this->renderTemplate('product/edit.phtml', ['data'=> $productModel]);
+        // $block = Mage::getBlock("product/edit");
+        // $block->toHtml();
     }
-
-    public function saveAction()
-    {
-        $model = new Model_Product();
-
-        foreach ($_POST['product'] as $key => $value) {
-            $model->$key = $value;
+    public function saveAction(){
+        $data = $this->getRequest()->post('product');
+        // $productModel = new Models_Product();
+        $productModel = Mage::getModel('product');
+        
+        if(isset($data['product_id']) && $data['product_id']){
+            $productModel->load($data['product_id']);
         }
 
-        $model->save();
-
+        foreach($data as $key => $value){
+            $productModel->$key = $value;
+        }
+        
+        $productModel->save();
         $this->redirect('list', 'product');
     }
-
-    public function deleteAction()
-    {
+    public function deleteAction(){
         $id = $this->getRequest()->get('id');
-
-        if ($id) {
-            $model = new Model_Product();
-            $model->load($id)->delete($id);
-            // $model->delete($id);
+        // $productModel = new Models_Product();
+        $productModel = Mage::getModel('product');
+        if($id){
+            $productModel->load($id);
+            $productModel->delete();
         }
-
         $this->redirect('list', 'product');
     }
+    
 }
+?>

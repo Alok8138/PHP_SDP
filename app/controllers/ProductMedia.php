@@ -1,41 +1,52 @@
 <?php
-
-require_once 'app/controllers/Core/Base.php';
-require_once 'app/models/ProductMedia.php';
-class Controller_ProductMedia extends Controller_Core_Base{
-
+require_once "app/Models/Productmedia.php";
+class Controllers_Productmedia extends Controllers_Core_Base{
     public function listAction(){
-        $model = new Model_ProductMedia();
-        $data = $model->fetchAll();
-        $this->renderTemplate('productMedia/list.phtml', ['data' => $data]);
-    }
+        $productmediaModel = new Models_Productmedia();
+        $data = $productmediaModel->getAll();
 
+        $this->renderTemplate('productmedia/list.phtml', ['data'=> $data]);
+    }
     public function editAction(){
-        $model = new Model_ProductMedia();
+        // $productmediaModel = new Models_Productmedia();
+        $productmediaModel = Mage::getModel('productmedia');
+
+
         $id = $this->getRequest()->get('id');
         if($id){
-            $model->load($id);
+            // $productmediaModel->load($id);
+            if(!$productmediaModel->load($id)){
+                throw new Exception("Invalid Product Media ID");
+            }
         }
-        $this->renderTemplate('productMedia/edit.phtml', ['data' => $model]);
-         
+        $this->renderTemplate('productmedia/edit.phtml', ['data'=> $productmediaModel]);
     }
-
     public function saveAction(){
-        $model = new Model_ProductMedia();
-        foreach($_POST['productmedia'] as $key => $value){
-            $model->$key = $value;
+        $data = $this->getRequest()->post('productmedia');
+        // $productmediaModel = new Models_Productmedia();
+        $productmediaModel = Mage::getModel('productmedia');
+        
+        if(isset($data['product_media_id']) && $data['product_media_id']){
+            $productmediaModel->load($data['product_media_id']);
         }
-        $model->save();
+
+        foreach($data as $key => $value){
+            $productmediaModel->$key = $value;
+        }
+        
+        $productmediaModel->save();
         $this->redirect('list', 'productmedia');
     }
-
     public function deleteAction(){
         $id = $this->getRequest()->get('id');
+        // $productmediaModel = new Models_Productmedia();
+        $productmediaModel = Mage::getModel('productmedia');
         if($id){
-            $model = new Model_ProductMedia();
-            $model->load($id)->delete($id);
-            // $model->delete($id);
+            $productmediaModel->load($id);
+            $productmediaModel->delete();
         }
         $this->redirect('list', 'productmedia');
     }
+    
 }
+?>

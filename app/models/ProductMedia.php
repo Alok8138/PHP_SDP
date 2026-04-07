@@ -1,6 +1,8 @@
 <?php
-require_once 'app/models/Core/Table.php';
-class Model_ProductMedia extends Model_Core_Table{
-    protected $_tablename = "product_media";
-    protected $_primarykey = "product_media_id";
+require_once "app/Models/Core/Table.php";
+class Models_Productmedia extends Models_Core_Table{
+    public $tableName = 'product_media';
+    public $primaryKey = 'product_media_id';
 }
+
+?>

@@ -1,72 +1,67 @@
 <?php
-require_once 'app/models/Product.php';
-require_once 'app/blocks/Core/Layout.php';
-class Controller_Core_Base
+class Controllers_Core_Base
 {
-    //base
     protected $request = null;
-    protected $layout = null;
-
-    public function getRequest()
-    {
-        if ($this->request) {
-            return $this->request;
-        }
-        $request = new Model_Request();
-        $this->setRequest($request);
-        return $this->request;
-    }
-
     public function setRequest($request)
     {
         $this->request = $request;
         return $this;
     }
-
+    public function getRequest()
+    {
+        if(!$this->request){
+            $this->request = new models_Core_Request();
+            $this->setRequest($this->request);
+            return $this->request;
+        }
+        return $this->request;
+    }
     public function dispatch()
     {
-        $action = $this->getRequest()->get('a', 'index');
-        $action .= 'Action';
+        $this->request = $this->getRequest();
+        $action = $this->request->get("a","index") . "Action";
         $this->$action();
     }
-
-    public function redirect($a = null, $c = null)
+    
+    public function redirect($a=null,$c=null)
     {
-        if (!$a) {
-            $a = $this->getRequest()->get('a');
+        $request = $this->getRequest();
+        if ($a !== null) {
+            $action = $a;
+        }else{
+            $action = $request->get("a", "index");
         }
 
-        if (!$c) {
-            $c = $this->getRequest()->get('c');
+        if ($c !== null) {
+            $controller = $c;
+        }else{
+            $controller = $request->get("c", "index");
         }
 
-        header("Location: index.php?a=$a&c=$c");
+        header("Location: ?a=$action&c=$controller");
+        exit();
     }
-
     public function renderTemplate($template, $data = [])
     {
-        // echo "<pre>";
-        // print_r($data);
-
         extract($data);
+        
+        $template = 'app/templates/' . $template;
 
-        $templatePath = 'app/templates/' . $template;
-
-        if (!file_exists($templatePath)) {
-            die("Template not found: " . $templatePath);
+        if (!file_exists($template)) {
+            die("Template not available: " . $template);
         }
 
-        include $templatePath;
+        include $template;
     }
-
     public function getLayout()
     {
         return Mage::getBlock('core/layout');
     }
     public function setLayout($layout)
     {
-        Mage::getBlock('core/layout', $layout);
+        Mage::getBlock($layout);
+       
     }
-
-   
 }
+
+?>

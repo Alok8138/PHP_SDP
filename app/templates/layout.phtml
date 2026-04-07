@@ -1,3 +1,20 @@
-header
-content 
-Footer
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard</title>
+</head>
+<body>
+    <!-- <?php include 'app/templates/menu.phtml'; ?> -->
+    <div>
+        Header
+    </div>
+    <div class="content">
+        <!-- <?php print_r($this->getChild('product/list')); ?> -->
+        <!-- Content -->
+        <?php $this->getChild('product/list')->toHtml(); ?>
+    </div>
+    <div>
+        Footer
+    </div>
+</body>
+</html>

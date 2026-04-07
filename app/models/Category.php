@@ -1,8 +1,7 @@
 <?php
-require_once 'app/models/Core/Table.php';
-class Category_model extends Model_Core_table
-{
-
-    protected $_tablename = 'category';
-    protected $_primarykey = 'category_id';
+require_once "app/Models/Core/Table.php";
+class Models_Category extends Models_Core_Table{
+    public $tableName = 'category';
+    public $primaryKey = 'category_id';
 }
+?>

@@ -1,55 +1,52 @@
 <?php
-require_once 'app/controllers/Core/Base.php';
-require_once 'app/models/Category.php';
+require_once "app/Models/Category.php";
+//add try and catch 
+class Controllers_Category extends Controllers_Core_Base{
+    public function listAction(){
+        // $categoryModel = new Models_Category();
+        $categoryModel = Mage::getModel('category');
+        $data = $categoryModel->getAll();
 
-class Controller_Category extends Controller_Core_Base
-{
-
-
-    public function listAction() {
-        $model= new Category_Model();
-        $data = $model->fetchAll();
-
-        $this->renderTemplate('category/list.phtml',[
-            'data'=>$data
-        ]);
-
-        
+        $this->renderTemplate('category/list.phtml', ['data'=> $data]);
     }
-    public function editAction() {
-        $model= new Category_Model();
+    public function editAction(){
+        // $categoryModel = new Models_Category();
+        $categoryModel = Mage::getModel('category');
         $id = $this->getRequest()->get('id');
-
         if($id){
-            $model->load($id);
+            // $categoryModel->load($id);
+            if(!$categoryModel->load($id)){
+                throw new Exception("Invalid Category ID");
+            }
         }
-
-        // echo "<pre>";
-        // print_r($model);
-    
-        $this->renderTemplate('category/edit.phtml',[
-            'data'=>$model
-        ]);
+        $this->renderTemplate('category/edit.phtml', ['data'=> $categoryModel]);
     }
-    public function saveAction() {
-        $model = new Category_Model();
-
-        foreach ($_POST['category'] as $key => $value) {
-            $model->$key = $value;
+    public function saveAction(){
+        $data = $this->getRequest()->post('category');
+        // $categoryModel = new Models_Category();
+        $categoryModel = Mage::getModel('category');
+        
+        if(isset($data['category_id']) && $data['category_id']){
+            $categoryModel->load($data['category_id']);
         }
 
-        $model->save();
-
+        foreach($data as $key => $value){
+            $categoryModel->$key = $value;
+        }
+        
+        $categoryModel->save();
         $this->redirect('list', 'category');
     }
-    public function deleteAction() {
+    public function deleteAction(){
         $id = $this->getRequest()->get('id');
-
-        if ($id) {
-            $model = new Category_Model();
-            $model->load($id)->delete($id);
+        // $categoryModel = new Models_Category();
+        $categoryModel = Mage::getModel('category');
+        if($id){
+            $categoryModel->load($id);
+            $categoryModel->delete();
         }
-
         $this->redirect('list', 'category');
     }
+    
 }
+?>

@@ -1,4 +1,5 @@
-<?php require_once 'app/templates/menu.phtml'; ?>
+<?php include 'app/templates/menu.phtml'; ?>
+
 <h2><?php echo $data->customer_id ? 'Edit Customer' : 'Add New Customer'; ?></h2>
 
 <form method="POST" action="index.php?c=customer&a=save">
@@ -8,6 +9,7 @@
         <tr>
             <td>Customer Group ID</td>
             <td><input type="text" name="customer[customer_group_id]" value="<?php echo $data->customer_group_id; ?>"></td>
+        </tr>
         <tr>
             <td>First Name</td>
             <td><input type="text" name="customer[first_name]" value="<?php echo $data->first_name; ?>"></td>
@@ -21,7 +23,7 @@
             <td><input type="text" name="customer[email]" value="<?php echo $data->email; ?>"></td>
         </tr>
         <tr>
-            <td>Mobile Number</td>
+            <td>Phone</td>
             <td><input type="text" name="customer[phone]" value="<?php echo $data->phone; ?>"></td>
         </tr>
         <tr>

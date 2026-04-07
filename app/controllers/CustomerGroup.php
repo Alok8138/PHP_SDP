@@ -1,49 +1,50 @@
 <?php
+require_once "app/Models/Customergroup.php";
+class Controllers_Customergroup extends Controllers_Core_Base{
+    public function listAction(){
+        $customergroupModel = new Models_Customergroup();
+        $data = $customergroupModel->getAll();
 
-require_once 'app/controllers/Core/Base.php';
-require_once 'app/models/CustomerGroup.php';
-
-
-class Controller_CustomerGroup extends COntroller_Core_Base
-{
-    public function listAction() {
-        $model = new CustomerGroup_Model();
-        $data = $model->fetchAll();
-
-        $this->renderTemplate('CustomerGroup/list.phtml',['data'=>$data]);
-
+        $this->renderTemplate('customergroup/list.phtml', ['data'=> $data]);
     }
-    public function editAction() {
-        $model = new CustomerGroup_Model();
-        $id = $this->getRequest()->get('id');
-
-        if($id){
-            $model->load($id);
-        }
-
-        $this->renderTemplate('CustomerGroup/edit.phtml',['data'=>$model]);
-
-    }
-    public function saveAction() {
-        $model = new CustomerGroup_Model();
-
-        foreach($_POST['customergroup'] as $key=> $value){
-            $model->$key = $value;
-        }
-        $model->save();
-
-        $this->redirect('list', 'customergroup');
-    }
-    public function deleteAction() {
+    public function editAction(){
+        // $customergroupModel = new Models_Customergroup();
+        $customergroupModel = Mage::getModel('customergroup');
         $id = $this->getRequest()->get('id');
         if($id){
-            $model = new CustomerGroup_Model();
-            $model->load($id)->delete($id);
-            // $model->delete($id);
+            // $categoryModel->load($id);
+            if(!$customergroupModel->load($id)){
+                throw new Exception("Invalid Customer Group ID");
+            }
         }
-
-        $this->redirect('list', 'customergroup');
+        $this->renderTemplate('customergroup/edit.phtml', ['data'=> $customergroupModel]);
+    }
+    public function saveAction(){
+        $data = $this->getRequest()->post('customergroup');
+        // $customergroupModel = new Models_Customergroup();
+        $customergroupModel = Mage::getModel('customergroup');
         
+        if(isset($data['customer_group_id']) && $data['customer_group_id']){
+            $customergroupModel->load($data['customer_group_id']);
+        }
+
+        foreach($data as $key => $value){
+            $customergroupModel->$key = $value;
+        }
+        
+        $customergroupModel->save();
+        $this->redirect('list', 'customergroup');
+    }
+    public function deleteAction(){
+        $id = $this->getRequest()->get('id');
+        // $customergroupModel = new Models_Customergroup();
+        $customergroupModel = Mage::getModel('customergroup');
+        if($id){
+            $customergroupModel->load($id);
+            $customergroupModel->delete();
+        }
+        $this->redirect('list', 'customergroup');
     }
     
 }
+?>

@@ -1,8 +1,8 @@
 <?php
-require_once 'app/models/Core/Table.php';
-
-class Model_Product extends Model_Core_Table
-{
-    protected $_tablename = 'product';
-    protected $_primarykey = 'product_id';
+require_once "app/Models/Core/Table.php";
+class Models_Product extends Models_Core_Table{
+    public $tableName = 'product';
+    public $primaryKey = 'product_id';
 }
+
+?>

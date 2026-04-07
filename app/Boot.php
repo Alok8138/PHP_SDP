@@ -1,30 +1,19 @@
 <?php
-require_once 'app/models/Core/Request.php';
+require_once "app/controllers/Core/Base.php";
+require_once "app/models/Core/Request.php";
+require_once "app/controllers/Product.php";
+require_once "app/controllers/Category.php";
+require_once "app/controllers/Customergroup.php";
+require_once "app/controllers/Customer.php";
+require_once "app/controllers/Productmedia.php";
 
-class Boot
-{
-    public static function init()
-    {
-        $request = new Model_Request();
-
-        $controllerName = $request->get('c', 'product');
-
-        $controllerFile = 'app/controllers/' . ucfirst($controllerName) . '.php';
-
-        if (!file_exists($controllerFile)) {
-            die("Controller file not found: " . $controllerFile);
-        }
-
-        require_once $controllerFile;
-
-        
-        $controllerClass = 'Controller_' . ucfirst($controllerName);
-
-        if (!class_exists($controllerClass)) {
-            die("Controller class not found: " . $controllerClass);
-        }
-
-        $controller = new $controllerClass();
-        $controller->dispatch();
+class Boot extends Controllers_Core_Base{
+    public static function init(){
+        $request = new models_Core_Request();
+        $controller = "Controllers_" . ucfirst($request->get("c","index"));
+        $controllerObject = new $controller(); 
+        $controllerObject->dispatch();
     }
 }
+
+?>
