@@ -37,6 +37,7 @@ class Controllers_Productmedia extends Controllers_Core_Base{
         $productmediaModel->save();
         $this->redirect('list', 'productmedia');
     }
+    //
     public function deleteAction(){
         $id = $this->getRequest()->get('id');
         // $productmediaModel = new Models_Productmedia();

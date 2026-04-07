@@ -7,6 +7,7 @@ class Controllers_Customergroup extends Controllers_Core_Base{
 
         $this->renderTemplate('customergroup/list.phtml', ['data'=> $data]);
     }
+    //
     public function editAction(){
         // $customergroupModel = new Models_Customergroup();
         $customergroupModel = Mage::getModel('customergroup');

@@ -7,6 +7,7 @@ class Block_Core_template{
         $this->template = $template;
         return $this;
     }
+    //
     
     public function getTemplate()
     {

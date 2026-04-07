@@ -47,6 +47,7 @@ class Controllers_Product extends Controllers_Core_Base{
         $productModel->save();
         $this->redirect('list', 'product');
     }
+    //
     public function deleteAction(){
         $id = $this->getRequest()->get('id');
         // $productModel = new Models_Product();

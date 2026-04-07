@@ -6,4 +6,5 @@ class Block_Product_list extends Block_Core_template{
     }
     
 }
+//
 ?>

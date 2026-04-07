@@ -9,6 +9,7 @@ class Controllers_Category extends Controllers_Core_Base{
 
         $this->renderTemplate('category/list.phtml', ['data'=> $data]);
     }
+    //
     public function editAction(){
         // $categoryModel = new Models_Category();
         $categoryModel = Mage::getModel('category');

@@ -5,5 +5,5 @@ class Block_Product_edit extends Block_Core_template{
         $this->setTemplate('product/edit');
     }
 }
-
+//
 ?>

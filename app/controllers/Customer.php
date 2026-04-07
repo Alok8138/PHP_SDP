@@ -8,6 +8,7 @@ class Controllers_Customer extends Controllers_Core_Base{
 
         $this->renderTemplate('customer/list.phtml', ['data'=> $data]);
     }
+    //
     public function editAction(){
         // $customerModel = new Models_Customer();
         $customerModel = Mage::getModel('customer');

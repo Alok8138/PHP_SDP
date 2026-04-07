@@ -7,6 +7,7 @@ class Block_Core_Layout
     public function __construct() {
         $this->setTemplate('layout');
     }
+    //
 
     public function setTemplate($template)
     {

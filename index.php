@@ -1,91 +1,39 @@
 <?php
-require_once 'app/Boot.php';
-class Mage
-{
-
-    public static function init()
-    {
+require_once "app/boot.php";
+class Mage{
+    public static function init(){
         Boot::init();
     }
-
-    public static function getBlock($blockName)
-    {
-        // $blockName = 'product/list'
-
-
-        $classNameRaw = str_replace('/', '_', $blockName);
-        $parts = explode('_', $classNameRaw);
-        $parts = array_map('ucfirst', $parts);
-
-
-        $blockClass = 'Block_' . implode('_', $parts);
-
-
-        $blockFile = 'app/blocks/' . implode('/', $parts) . '.php';
-
-        if (!file_exists($blockFile)) {
-            die("Block file not found: " . $blockFile);
+    public static function getBlock($name){
+        $block = "app/Block/" . $name . ".php";
+        if(file_exists($block)){
+            require_once $block;
+            $className = "Block_" . str_replace("/", "_", $name);
+            return new $className();
         }
+        return false;
+    }
+    //
 
-        require_once $blockFile;
-
-        if (!class_exists($blockClass)) {
-            die("Block class not found: " . $blockClass);
+    public static function getController($name){
+        $controller = "app/Controllers/" . $name . ".php";
+        if(file_exists($controller)){
+            require_once $controller;
+            $className = "Controllers_" . str_replace("/", "_", $name);
+            return new $className();
         }
-
-        return new $blockClass();
+        return false;
     }
 
-    //get model
-    public static function getModel($modelName)
-    {
-        // $modelName = 'product'
-
-        $classNameRaw = str_replace('/', '_', $modelName);
-        $parts = explode('_', $classNameRaw);
-        $parts = array_map('ucfirst', $parts);
-
-        $modelClass = 'Model_' . implode('_', $parts);
-
-        $modelFile = 'app/models/' . implode('/', $parts) . '.php';
-
-        if (!file_exists($modelFile)) {
-            die("Model file not found: " . $modelFile);
+    public static function getModel($name){
+        $model = "app/models/" . $name . ".php";
+        if(file_exists($model)){
+            require_once $model;
+            $className = "models_" . str_replace("/", "_", $name);
+            return new $className();
         }
-
-        require_once $modelFile;
-
-        if (!class_exists($modelClass)) {
-            die("Model class not found: " . $modelClass);
-        }
-
-        return new $modelClass();
-    }
-
-    public static function getController($controllerName)
-    {
-        // $controllerName = 'product'
-
-        $classNameRaw = str_replace('/', '_', $controllerName);
-        $parts = explode('_', $classNameRaw);
-        $parts = array_map('ucfirst', $parts);
-
-        $controllerClass = 'Controller_' . implode('_', $parts);
-
-        $controllerFile = 'app/controllers/' . implode('/', $parts) . '.php';
-
-        if (!file_exists($controllerFile)) {
-            die("Controller file not found: " . $controllerFile);
-        }
-
-        require_once $controllerFile;
-
-        if (!class_exists($controllerClass)) {
-            die("Controller class not found: " . $controllerClass);
-        }
-
-        return new $controllerClass();
+        return false;
     }
 }
-
 Mage::init();
+?>
